@@ -1,9 +1,12 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
-from aiogram import types, Router
+from aiogram import Router
 from aiogram import F
+from aiogram.types import User
 
 from utils.keys import OPENAI_KEY
+from utils.answer_generator import answer_the_question
+
 from forms import DialogForm, BaseForm
 
 message_request_router = Router()
@@ -18,8 +21,10 @@ async def process_message_choice(message: Message, state: FSMContext) -> None:
 @message_request_router.message(DialogForm.keeping_the_dialog)
 async def process_the_question(message: Message, state: FSMContext) -> None:
     await state.set_state(DialogForm.final_message_choice)
+    username = message.from_user.username
+    answer = await answer_the_question(message.text, OPENAI_KEY, username)
     await message.answer(
-        'answer',
+        answer,
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
