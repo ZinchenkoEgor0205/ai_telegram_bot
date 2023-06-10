@@ -1,10 +1,10 @@
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram import types, Router
 from aiogram import F
 from utils.image_generator import generate_image
 from utils.keys import OPENAI_KEY
-from forms import ImageForm, BaseForm
+from forms import ImageForm
 
 image_request_router = Router()
 
