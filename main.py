@@ -2,21 +2,18 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
-
-from handlers.base_handler import router
-
+from handlers.image_request_handlers import image_request_router
+from handlers.message_request_handlers import message_request_router
+from handlers.base_handlers import base_router
 from aiogram.fsm.storage.memory import MemoryStorage
 from utils.keys import TELEGRAM_TOKEN
 
-async def main() -> None:
-    # Dispatcher is a root router
-    dp = Dispatcher(storage=MemoryStorage())
-    # ... and all other routers should be attached to Dispatcher
-    dp.include_router(router)
 
-    # Initialize Bot instance with a default parse mode which will be passed to all API calls
+async def main() -> None:
+    dp = Dispatcher(storage=MemoryStorage())
+    base_router.include_routers(message_request_router, image_request_router)
+    dp.include_router(base_router)
     bot = Bot(TELEGRAM_TOKEN, parse_mode="HTML")
-    # And the run events dispatching
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 

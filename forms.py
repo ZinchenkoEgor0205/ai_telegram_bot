@@ -1,7 +1,19 @@
 from aiogram.fsm.state import StatesGroup, State
 
 
-class SectionForm(StatesGroup):
+class BaseForm(StatesGroup):
+    choosing_the_branch = State()
+    process_the_choice = State()
+
+
+class ImageForm(StatesGroup):
     enter = State()
-    image_description = State()
-    fincal_choice = State()
+    describing_an_image = State()
+    processing_image_request = State()
+    final_image_choice = State()
+
+
+class DialogForm(StatesGroup):
+    writing_a_question = State()
+    keeping_the_dialog = State()
+    final_message_choice = State()
